@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyber-common"
+version = "0.1.0"
+description = "Shared FastAPI base for the CyberATP and CyberEMS microservices."
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.110",
+  "pydantic>=2.0",
+]
+authors = [{ name = "Mitchell Doedens" }]
+license = { text = "UNLICENSED" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

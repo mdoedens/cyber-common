@@ -1,0 +1,37 @@
+{
+  "name": "@cyber/common",
+  "version": "0.1.0",
+  "description": "Shared React components, i18n, and OIDC auth helpers for the CyberATP and CyberEMS projects.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./ui": "./src/ui/index.ts",
+    "./i18n": "./src/i18n/index.ts",
+    "./i18n/server": "./src/i18n/server.ts",
+    "./auth": "./src/auth/index.ts",
+    "./auth/server": "./src/auth/server.ts"
+  },
+  "peerDependencies": {
+    "lucide-react": "^0.400.0",
+    "next": ">=14.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
