@@ -23,3 +23,10 @@ need.
 Fixed: loosened lucide-react peer dep from ^0.400.0 to >=0.400.0 so projects on
 newer versions (e.g. EMS web on 0.460.0) can install without --legacy-peer-deps.
 
+
+## [0.1.2] — 2026-04-19
+Changed:
+- `AccountChip` now accepts `anonClassName` and `signedClassName` so each
+  project can theme the login button. Default is a visible outline button on
+  light backgrounds (was an invisible text-only link before, broke on dark EMS nav).
+
