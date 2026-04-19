@@ -31,7 +31,7 @@ module.exports = {
 
 | Import | What it contains |
 |---|---|
-| `@cyber/common/ui` | React components (LanguageSwitcher, AccountChip, FlagUS, FlagNL) |
+| `@cyber/common/ui` | React components (LanguageSwitcher, AccountChip, FlagUS, FlagNL, multi-tenancy primitives) |
 | `@cyber/common/i18n` | Types, shared dict keys, `detectLocaleFromHeader`, `LOCALE_COOKIE` |
 | `@cyber/common/i18n/server` | `getLocale`, `getT` — **server components only** (uses `next/headers`) |
 | `@cyber/common/auth` | OIDC constants, PKCE helpers, JWT decode, cookie scope helper |
@@ -59,6 +59,34 @@ cyber-common @ git+ssh://git@github.com/mdoedens/cyber-common.git@v0.1.0#subdire
 
 ```python
 from cyber_common.base_service import create_app
+```
+
+## Multi-tenancy UI primitives
+
+Shared components that implement the Cyber* multi-tenancy contract (provider /
+distributor / reseller / customer tiers, impersonation, plan gating). All client
+components, all themeable via Tailwind classes + `--color-brand-*` CSS vars so
+CyberATP (light) and CyberEMS (dark) render correctly from a single source.
+
+| Component | What it does |
+|---|---|
+| `OrgSwitcher` | Dropdown of the user's accepted memberships, grouped by tier, with pending-invite badge and optional "Create organization" CTA. |
+| `ContextSwitcher` | For users on multiple tiers — toggles the panel view context without switching org. Renders nothing if only one tier is available. |
+| `ImpersonationBanner` | Top-of-page amber banner shown during an active impersonation session, with live countdown and "End impersonation" button. |
+| `PermissionGate` | Conditional renderer gated on a permission flag list (`all` / `any` mode) with fallback. |
+| `PlanUpgradeModal` | Modal shown when an action hits an HTTP 402 — names the feature, current plan, links to the billing flow. |
+| `TierBadge` | Small color-coded pill for an `org_type` (provider=indigo, distributor=blue, reseller=teal, customer=slate). |
+
+```ts
+"use client";
+import {
+  OrgSwitcher,
+  ContextSwitcher,
+  ImpersonationBanner,
+  PermissionGate,
+  PlanUpgradeModal,
+  TierBadge,
+} from "@cyber/common/ui";
 ```
 
 ## Versioning

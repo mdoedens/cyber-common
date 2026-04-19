@@ -1,6 +1,6 @@
 {
   "name": "@cyber/common",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Shared React components, i18n, and OIDC auth helpers for the CyberATP and CyberEMS projects.",
   "license": "UNLICENSED",
   "private": true,
