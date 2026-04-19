@@ -16,6 +16,12 @@ type Props = {
    */
   triggerClassName?: string;
   menuClassName?: string;
+  /**
+   * Tailwind classes for each item button inside the dropdown. Defaults
+   * to a light-theme slate-700-on-white. Dark themes (e.g. CyberEMS)
+   * should pass their own so the label is readable on the menu bg.
+   */
+  itemClassName?: string;
 };
 
 const FLAGS: Record<Locale, { Flag: typeof FlagUS; label: string }> = {
@@ -29,6 +35,7 @@ export function LanguageSwitcher({
   currentLocale,
   triggerClassName,
   menuClassName,
+  itemClassName,
 }: Props) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -98,10 +105,13 @@ export function LanguageSwitcher({
                   role="option"
                   aria-selected={false}
                   onClick={() => pick(l)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 transition"
+                  className={
+                    itemClassName ??
+                    "w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 transition"
+                  }
                 >
                   <F />
-                  <span>{FLAGS[l].label}</span>
+                  <span className="ml-1">{FLAGS[l].label}</span>
                 </button>
               </li>
             );
