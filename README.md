@@ -2,7 +2,13 @@
 
 Shared code for the **CyberATP** and **CyberEMS** projects.
 
-- **React components** that both marketing sites + apps reuse (language switcher, account chip, flag SVGs, brand primitives).
+- **Design tokens** — shared framework layer (spacing, typography, motion, a11y,
+  semantic color roles, dark mode). Each app defines its own brand palette;
+  `--color-brand` is the one hook that per-product colors flow through so
+  shared components auto-theme.
+- **React components** that both marketing sites + apps reuse (Button,
+  ValueDisplay, language switcher, account chip, flag SVGs, multi-tenancy
+  primitives).
 - **i18n engine** with cookie/accept-language detection and a typed dictionary pattern.
 - **OIDC auth helpers** for Keycloak PKCE flows (login, register, callback, logout, session reading).
 - **Python base service** factory for FastAPI microservices.
@@ -31,11 +37,40 @@ module.exports = {
 
 | Import | What it contains |
 |---|---|
-| `@cyber/common/ui` | React components (LanguageSwitcher, AccountChip, FlagUS, FlagNL, multi-tenancy primitives) |
+| `@cyber/common/tokens/base.css` | Framework tokens (typography, spacing, radii, motion, semantic color roles, dark mode) |
+| `@cyber/common/tokens/a11y.css` | Focus ring, reduced-motion, skip-link, sr-only, tap-target |
+| `@cyber/common/ui` | React components (Button, ValueDisplay, LanguageSwitcher, AccountChip, FlagUS, FlagNL, multi-tenancy primitives) |
 | `@cyber/common/i18n` | Types, shared dict keys, `detectLocaleFromHeader`, `LOCALE_COOKIE` |
 | `@cyber/common/i18n/server` | `getLocale`, `getT` — **server components only** (uses `next/headers`) |
 | `@cyber/common/auth` | OIDC constants, PKCE helpers, JWT decode, cookie scope helper |
 | `@cyber/common/auth/server` | `getSession` — **server components only** (reads cookie) |
+
+## Design tokens — the one thing that must stay consistent
+
+CyberATP and CyberEMS share the **design framework** (spacing, type, radii,
+motion, component specs, a11y). They deliberately **diverge on brand**
+(own logo, favicon, brand ramp). Each app's `globals.css`:
+
+```css
+@import "tailwindcss";
+@import "@cyber/common/tokens/base.css";
+@import "@cyber/common/tokens/a11y.css";
+
+@theme {
+  /* Product-specific brand ramp — ATP blue, EMS teal. */
+  --color-brand-50:  /* ... */;
+  --color-brand-600: /* brand hex */;
+  /* ... */
+}
+
+:root { --color-brand: var(--color-brand-600); }
+[data-theme="dark"] { --color-brand: var(--color-brand-500); }
+```
+
+Shared components (`Button`, `ValueDisplay`, focus ring) read
+`--color-brand` so each app renders in its own brand color from the same
+component implementation. Never hard-code a specific brand shade in a
+shared component.
 
 Example:
 

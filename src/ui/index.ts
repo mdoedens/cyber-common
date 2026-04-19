@@ -13,3 +13,15 @@ export { ContextSwitcher } from "./context-switcher";
 export { ImpersonationBanner } from "./impersonation-banner";
 export { PermissionGate, hasPermission } from "./permission-gate";
 export { PlanUpgradeModal } from "./plan-upgrade-modal";
+
+// Shared design-system primitives (v0.3.0).
+export { Button } from "./button";
+export type { ButtonProps, ButtonVariant, ButtonSize } from "./button";
+
+export { ValueDisplay } from "./value-display";
+export type {
+  ValueDisplayProps,
+  ValueDisplaySize,
+  ValueDisplayTone,
+  ValueDisplayTrend,
+} from "./value-display";

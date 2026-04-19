@@ -1,0 +1,115 @@
+/*
+ * @cyber/common — accessibility primitives.
+ *
+ * Opt-in a11y defaults that complement base.css. Import after base.css.
+ * Covers focus-visible rings, reduced-motion respect, and skip-link
+ * styling.
+ */
+
+/* ==================================================================== */
+/* Focus ring — WCAG 2.1 AA compliant.                                  */
+/*                                                                      */
+/* Uses --color-brand so the ring tints per product, but with the same  */
+/* geometry everywhere. Only shows on keyboard navigation.              */
+/* ==================================================================== */
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--color-brand, #3B82F6);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: inherit;
+}
+
+/* Never strip focus without a replacement. */
+:where(a, button, input, select, textarea, [tabindex]):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==================================================================== */
+/* Reduced motion — respect OS preference.                              */
+/*                                                                      */
+/* Strips transform animations but keeps opacity fades (they're         */
+/* generally safe for motion-sensitivity) and keeps loading-skeleton    */
+/* pulse since it signals activity.                                     */
+/* ==================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep opacity fades for state clarity. */
+  *[data-motion="fade"] {
+    transition-duration: 200ms !important;
+  }
+
+  /* Keep loading pulses. */
+  *[data-motion="pulse"],
+  .animate-pulse {
+    animation-duration: 1500ms !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
+/* ==================================================================== */
+/* Skip link — visually hidden until focused.                           */
+/* ==================================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: var(--space-4, 16px);
+  z-index: 9999;
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #0f172a);
+  border-radius: var(--radius-md, 8px);
+  box-shadow: var(--shadow-lg, 0 4px 12px rgba(0, 0, 0, 0.10));
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold, 600);
+  transition: top 150ms ease-out;
+}
+
+.skip-link:focus-visible {
+  top: var(--space-4, 16px);
+}
+
+/* ==================================================================== */
+/* Screen-reader only utility.                                          */
+/* ==================================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==================================================================== */
+/* Minimum touch target — enforces 44x44px hit area without affecting   */
+/* visual size. Apply via class on small interactive elements.          */
+/* ==================================================================== */
+
+.tap-target {
+  position: relative;
+}
+
+.tap-target::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  min-width: 44px;
+  min-height: 44px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
