@@ -16,9 +16,12 @@ jobs:
           node-version: "22"
       - run: npm install -g typescript@5.7.2
       - run: |
-          npm install --no-save --legacy-peer-deps \
+          # Install peer deps locally (drop --no-save so they actually land in node_modules
+          # where tsc can resolve them; --no-save previously skipped modules that were
+          # already marked as peerDependencies without installing them).
+          npm install --legacy-peer-deps \
             react@19 react-dom@19 @types/react@19 @types/react-dom@19 \
-            next@16 lucide-react@^0.400.0 @types/node@22
+            next@16 lucide-react@^0.460.0 @types/node@22
           npx tsc --noEmit
         env:
           CI: "true"
