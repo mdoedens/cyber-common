@@ -10,6 +10,16 @@ type Props = {
   endsAt: string; // ISO datetime
   onEndImpersonation: () => void | Promise<void>;
   className?: string;
+  /** Localized copy. Defaults match the English default strings. The
+   *  banner builds the message as:
+   *    "{viewingLabel} <targetOrgName> {asLabel} <actorName>. {exitLabel}"
+   *  so the caller can pass a translation dict without re-writing the
+   *  whole banner. */
+  labels?: {
+    viewing?: string;
+    as?: string;
+    exit?: string;
+  };
 };
 
 function formatRemaining(ms: number): string {
@@ -30,7 +40,11 @@ export function ImpersonationBanner({
   endsAt,
   onEndImpersonation,
   className,
+  labels,
 }: Props) {
+  const viewingLabel = labels?.viewing ?? "You are viewing";
+  const asLabel = labels?.as ?? "as";
+  const exitLabel = labels?.exit ?? "Exit view";
   const [now, setNow] = useState<number>(() => Date.now());
   const [ending, setEnding] = useState(false);
 
@@ -67,9 +81,10 @@ export function ImpersonationBanner({
           aria-hidden="true"
         />
         <p className="text-sm flex-1 min-w-0">
-          <span className="font-semibold">{actorName}</span>
-          <span className="opacity-90"> is impersonating </span>
+          <span className="opacity-90">{viewingLabel} </span>
           <span className="font-semibold">{targetOrgName}</span>
+          <span className="opacity-90"> {asLabel} </span>
+          <span className="font-semibold">{actorName}</span>
           <span className="opacity-90">
             {" "}
             · {expired ? "session expired" : `ends in ${formatRemaining(remaining)}`}
@@ -86,7 +101,7 @@ export function ImpersonationBanner({
           ) : (
             <LogOut className="w-3.5 h-3.5" />
           )}
-          End impersonation
+          {exitLabel}
         </button>
       </div>
     </div>
