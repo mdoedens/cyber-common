@@ -63,7 +63,7 @@ export function ContextSwitcher({
         aria-label={`Panel context: ${TIER_META[activeTier].label}`}
         className={triggerCls}
       >
-        <span className="text-slate-400 dark:text-slate-500">View as</span>
+        <span className="text-slate-500 dark:text-slate-300">View as</span>
         <TierBadge tier={activeTier} label={tierLabels?.[activeTier]} />
         <ChevronDown className="w-3 h-3 text-slate-400" />
       </button>

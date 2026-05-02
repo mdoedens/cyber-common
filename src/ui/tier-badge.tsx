@@ -35,8 +35,12 @@ const TIER_META: Record<
   customer: {
     Icon: Home,
     label: "Customer",
+    // Bump dark-mode label from slate-300 → slate-100 for contrast on
+    // the customer panel's navy header. The other tiers use coloured
+    // accents (indigo/blue/teal) which already pop on dark; the slate
+    // pill was the only one that looked dim on a dark background.
     classes:
-      "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-500/15 dark:text-slate-300 dark:border-slate-500/30",
+      "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-500/20 dark:text-slate-100 dark:border-slate-400/40",
   },
 };
 
